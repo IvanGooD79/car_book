@@ -30,4 +30,10 @@
     <car_engine>3,2</car_engine>
     <car_door>5</car_door>
   </auto-book>
+  <auto-book>
+    <car_name>Camara</car_name>
+    <car_year>2015</car_year>
+    <car_engine>3.0</car_engine>
+    <car_door>2</car_door>
+  </auto-book>
 </NewDataSet>

@@ -239,6 +239,8 @@ namespace car_book
                 foreach (byte b in t_byte)
                     word[pbyte++] = b;
             }
+            else word[pbyte++] = 0; // размер строки
+
             if (r.Cells[2].Value.ToString().Length > 0 && ValidCell(r.Cells[2].Value.ToString())) // год
             {
                 word[pbyte++] = 0x12;

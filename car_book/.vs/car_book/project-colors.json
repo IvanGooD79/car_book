@@ -1,0 +1,16 @@
+{
+  "Version": 1,
+  "ProjectMap": {
+    "971580ec-da02-487f-9bf4-8316200555c3": {
+      "ProjectGuid": "971580ec-da02-487f-9bf4-8316200555c3",
+      "DisplayName": "car_book",
+      "ColorIndex": 0
+    },
+    "c58ea1c0-6d61-4698-8d40-32bf447d5d6d": {
+      "ProjectGuid": "c58ea1c0-6d61-4698-8d40-32bf447d5d6d",
+      "DisplayName": "client",
+      "ColorIndex": 1
+    }
+  },
+  "NextColorIndex": 2
+}
