@@ -122,12 +122,13 @@ namespace car_book
                 int n = data_base.Rows.Add();
                 data_base.Rows[n].Cells[0].Value = n + 1;
                 data_base.Rows[n].Selected = true;
-                c_data.Text = "всего " + (n+1).ToString();
+               
                 for (int i = 1; i < mTB.Length + 1; i++)
                     data_base.Rows[n].Cells[i].Value = mTB[i - 1].Text;
 
                 data_base.FirstDisplayedScrollingRowIndex = data_base.Rows[n].Index;
                 //data_base.Columns[0].Visible = true;
+                c_data.Text = "всего " + data_base.Rows.Count.ToString();
             }
 
         }
@@ -231,15 +232,15 @@ namespace car_book
         {
             word[pbyte++] = 0x02;
             word[pbyte++] = Convert.ToByte(Len_struct()); //размер структуры
-            word[pbyte++] = 0x09;
+            
             if (r.Cells[1].Value.ToString().Length > 0 && ValidCell(r.Cells[1].Value.ToString())) // модель
-            {
+            {   
+                word[pbyte++] = 0x09;
                 word[pbyte++] = Convert.ToByte(r.Cells[1].Value.ToString().Length);
                 byte[] t_byte = Encoding.Default.GetBytes(r.Cells[1].Value.ToString());
                 foreach (byte b in t_byte)
                     word[pbyte++] = b;
             }
-            else word[pbyte++] = 0; // размер строки
 
             if (r.Cells[2].Value.ToString().Length > 0 && ValidCell(r.Cells[2].Value.ToString())) // год
             {
@@ -436,6 +437,8 @@ namespace car_book
                 {
                     MessageBox.Show("XML файл не найден.", "Ошибка.");
                 }
+
+            c_data.Text = "всего " + data_base.Rows.Count.ToString();
         }
 
         private void delete_Click(object sender, EventArgs e)

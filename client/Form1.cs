@@ -166,16 +166,16 @@ namespace client
                 {
                     if (data[i] == 0x09)
                     {
-                        if (data[i + 1] > 0)
-                        {
+                        //if (data[i + 1] > 0)
+                        //{
                             int n = data[i + 1];
                             byte[] name = new byte[n];
                             Array.Copy(data, i + 2, name, 0, n);
                             stbuff = Encoding.ASCII.GetString(name);
                             st_list.Add(stbuff);
                             i += n + 2;
-                        }
-                        else { i+=2; st_list.Add("-"); }
+                        //}
+                        //else { i+=2; st_list.Add("-"); }
                     } 
                     else st_list.Add("-");
 
