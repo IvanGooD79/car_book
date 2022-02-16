@@ -1,0 +1,33 @@
+<?xml version="1.0" standalone="yes"?>
+<NewDataSet>
+  <auto-book>
+    <car_name>Nissan</car_name>
+    <car_year>2008</car_year>
+    <car_engine>1,6</car_engine>
+    <car_door>-</car_door>
+  </auto-book>
+  <auto-book>
+    <car_name>Toyota</car_name>
+    <car_year>2009</car_year>
+    <car_engine>1,6</car_engine>
+    <car_door>-</car_door>
+  </auto-book>
+  <auto-book>
+    <car_name>WV</car_name>
+    <car_year>2014</car_year>
+    <car_engine>1,6</car_engine>
+    <car_door>-</car_door>
+  </auto-book>
+  <auto-book>
+    <car_name>Skoda</car_name>
+    <car_year>2018</car_year>
+    <car_engine>1,6</car_engine>
+    <car_door>-</car_door>
+  </auto-book>
+  <auto-book>
+    <car_name>Mersedes</car_name>
+    <car_year>2021</car_year>
+    <car_engine>3,2</car_engine>
+    <car_door>5</car_door>
+  </auto-book>
+</NewDataSet>

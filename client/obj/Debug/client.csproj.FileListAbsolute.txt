@@ -1,0 +1,11 @@
+C:\MY_PROGECT\car_book\client\bin\Debug\client.exe.config
+C:\MY_PROGECT\car_book\client\bin\Debug\client.exe
+C:\MY_PROGECT\car_book\client\bin\Debug\client.pdb
+C:\MY_PROGECT\car_book\client\obj\Debug\client.csproj.AssemblyReference.cache
+C:\MY_PROGECT\car_book\client\obj\Debug\client.csproj.SuggestedBindingRedirects.cache
+C:\MY_PROGECT\car_book\client\obj\Debug\client.Form1.resources
+C:\MY_PROGECT\car_book\client\obj\Debug\client.Properties.Resources.resources
+C:\MY_PROGECT\car_book\client\obj\Debug\client.csproj.GenerateResource.cache
+C:\MY_PROGECT\car_book\client\obj\Debug\client.csproj.CoreCompileInputs.cache
+C:\MY_PROGECT\car_book\client\obj\Debug\client.exe
+C:\MY_PROGECT\car_book\client\obj\Debug\client.pdb
