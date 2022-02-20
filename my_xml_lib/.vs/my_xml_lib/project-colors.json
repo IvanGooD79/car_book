@@ -1,0 +1,11 @@
+{
+  "Version": 1,
+  "ProjectMap": {
+    "54c95aaa-76a7-4506-a7d5-c51be39f40ba": {
+      "ProjectGuid": "54c95aaa-76a7-4506-a7d5-c51be39f40ba",
+      "DisplayName": "my_xml_lib",
+      "ColorIndex": 0
+    }
+  },
+  "NextColorIndex": 1
+}

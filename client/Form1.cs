@@ -29,10 +29,6 @@ namespace client
          public Form1()
         {
             InitializeComponent();
-            p_in = Convert.ToInt32(this.port_in.Text);
-            p_out= Convert.ToInt32(this.port_out.Text);
-            IP_Address_Source = ip.Text;
-            
             CreateSocetRec();
 
             var colum1 = new DataGridViewColumn();
@@ -100,15 +96,18 @@ namespace client
 
         private void CreateSocetRec()
         {
+            p_in = Convert.ToInt32(this.port_in.Text);
+            p_out = Convert.ToInt32(this.port_out.Text);
+            IP_Address_Source = ip.Text;
+
             mySocket = new Socket(AddressFamily.InterNetwork, SocketType.Dgram, ProtocolType.Udp);
             mySocket.SetSocketOption(SocketOptionLevel.Socket, SocketOptionName.ReuseAddress, true);
             mySocket.ReceiveTimeout = 1;
 
             String host_name = System.Net.Dns.GetHostName();
             IPHostEntry host1 = Dns.GetHostEntry(host_name);
-            this.Text = host_name;
 
-            p_in = Convert.ToInt32(this.port_in.Text);
+            //p_in = Convert.ToInt32(this.port_in.Text);
             IPAddr = IPAddress.Any;
             IPHost = new IPEndPoint(IPAddr, p_in);
             mySocket.Bind(IPHost);
@@ -262,7 +261,6 @@ namespace client
             }
         }
 
-
         private void req1_Click(object sender, EventArgs e)
         {
             byte[] data = new byte[2];
@@ -292,7 +290,6 @@ namespace client
                 freq = false;
                 SendData(data);
             }
-
             
         }
 
@@ -328,16 +325,57 @@ namespace client
             textBox1.Text = filter;
         }
 
+        private void port_in_TextChanged(object sender, EventArgs e)
+        {
+            Regex regex = new Regex("[0-9]");
+            MatchCollection match = regex.Matches(port_in.Text);
+            String filter = "";
+            for (int count = 0; count < match.Count; count++)
+                filter += match[count].Value;
+            port_in.Text = filter;
+
+            CreateSocetRec();
+        }
+
+        private void port_out_TextChanged(object sender, EventArgs e)
+        {
+            Regex regex = new Regex("[0-9]");
+            MatchCollection match = regex.Matches(port_out.Text);
+            String filter = "";
+            for (int count = 0; count < match.Count; count++)
+                filter += match[count].Value;
+            port_out.Text = filter;
+        }
+
+        private void ip_TextChanged(object sender, EventArgs e)
+        {
+            Regex regex = new Regex(@"[0-9 \.]");
+            MatchCollection match = regex.Matches(ip.Text);
+
+            String filter = "";
+            for (int count = 0; count < match.Count; count++)
+                filter += match[count].Value;
+            ip.Text = filter;
+        }
+
         private void SendData(byte[] data)
         {
-            Socket sock = new Socket(AddressFamily.InterNetwork, SocketType.Dgram, ProtocolType.Udp);
-            sock.SetSocketOption(SocketOptionLevel.Socket, SocketOptionName.ReuseAddress, true);
-            IPEndPoint iep = new IPEndPoint(IPAddress.Parse(IP_Address_Source), p_out);
-            IPEndPoint iep_ = new IPEndPoint(IPAddress.Parse("127.0.0.1"), p_in);
-            sock.Bind(iep_);
-            sock.SendTo(data, iep);
-            sock.Dispose();
-            sock.Close();
+           try
+            {
+                p_in = Convert.ToInt32(this.port_in.Text);
+                p_out = Convert.ToInt32(this.port_out.Text);
+                IP_Address_Source = ip.Text;
+
+                Socket sock = new Socket(AddressFamily.InterNetwork, SocketType.Dgram, ProtocolType.Udp);
+                sock.SetSocketOption(SocketOptionLevel.Socket, SocketOptionName.ReuseAddress, true);
+                IPEndPoint iep = new IPEndPoint(IPAddress.Parse(IP_Address_Source), p_out);
+                IPEndPoint iep_ = new IPEndPoint(IPAddress.Parse("127.0.0.1"), p_in);
+                sock.Bind(iep_);
+                sock.SendTo(data, iep);
+                sock.Dispose();
+                sock.Close();
+            }
+            catch (Exception ex) { MessageBox.Show("Error "+ ex); }
         }
 
 

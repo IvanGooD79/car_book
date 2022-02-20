@@ -1,0 +1,11 @@
+{
+  "Version": 1,
+  "ProjectMap": {
+    "e002e302-a765-4d13-aec1-a4b792f3fd54": {
+      "ProjectGuid": "e002e302-a765-4d13-aec1-a4b792f3fd54",
+      "DisplayName": "udp_socket",
+      "ColorIndex": 0
+    }
+  },
+  "NextColorIndex": 1
+}

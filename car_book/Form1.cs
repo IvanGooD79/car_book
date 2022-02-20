@@ -11,6 +11,7 @@ using System.Net;
 using System.Net.Sockets;
 using System.Text.RegularExpressions;
 using System.IO;
+using my_xml_lib;
 
 
 
@@ -23,11 +24,13 @@ namespace car_book
         IPEndPoint IPHost;
         System.Windows.Forms.Timer TMR_Rec;
         System.Windows.Forms.TextBox[] mTB;
+
         int p_in, p_out;
-        String IP_Address_Source;
         bool flag_rec = false;
-        String fullPath = Application.StartupPath.ToString();
-        String xmlName = "\\CarData.xml";
+
+        String IP_Address_Source;
+        String fullPath = Application.StartupPath.ToString() + "\\";
+        String xmlName = "CarData.xml";
 
         public Form1()
         {
@@ -42,48 +45,66 @@ namespace car_book
             mTB[2] = car_engine;
             mTB[3] = car_door;
 
-            var colum1 = new DataGridViewColumn();
-            colum1.HeaderText = "№";
-            colum1.Width = 40;
-            colum1.ReadOnly = true;
-            colum1.Name = "number";
-            colum1.Frozen = true;
+
+            LIB_XML.SetXMLHead("car-book");
+            LIB_XML.AddXMLFieldName("car_name");
+            LIB_XML.AddXMLFieldName("car_year");
+            LIB_XML.AddXMLFieldName("car_engine");
+            LIB_XML.AddXMLFieldName("car_door");
+
+
+            var colum1 = new DataGridViewColumn
+            {
+                HeaderText = "№",
+                Width = 40,
+                ReadOnly = true,
+                Name = "number",
+                Frozen = true
+            };
             colum1.HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
             colum1.CellTemplate = new DataGridViewTextBoxCell();
 
-            var colum2 = new DataGridViewColumn();
-            colum2.HeaderText = "марка\n авто";
-            colum2.Width = 80;
-            colum2.ReadOnly = true;
-            colum2.Name = "name";
-            colum2.Frozen = true;
+            var colum2 = new DataGridViewColumn
+            {
+                HeaderText = "марка\n авто",
+                Width = 80,
+                ReadOnly = true,
+                Name = "name",
+                Frozen = true
+            };
             colum2.HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
             colum2.CellTemplate = new DataGridViewTextBoxCell();
 
-            var colum3 = new DataGridViewColumn();
-            colum3.HeaderText = "год\n выпуска";
-            colum3.Width = 80;
-            colum3.ReadOnly = true;
-            colum3.Name = "year";
-            colum3.Frozen = true;
+            var colum3 = new DataGridViewColumn
+            {
+                HeaderText = "год\n выпуска",
+                Width = 80,
+                ReadOnly = true,
+                Name = "year",
+                Frozen = true
+            };
             colum3.HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
             colum3.CellTemplate = new DataGridViewTextBoxCell();
 
-            var colum4 = new DataGridViewColumn();
-            colum4.HeaderText = "объем\n двигателя";
-            colum4.Width = 80;
-            colum4.ReadOnly = true;
-            colum4.Name = "engine";
-            colum4.Frozen = true;
+            var colum4 = new DataGridViewColumn
+            {
+                HeaderText = "объем\n двигателя",
+                Width = 80,
+                ReadOnly = true,
+                Name = "engine",
+                Frozen = true
+            };
             colum4.HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
             colum4.CellTemplate = new DataGridViewTextBoxCell();
 
-            var colum5 = new DataGridViewColumn();
-            colum5.HeaderText = "дверей";
-            colum5.Width = 80;
-            colum5.ReadOnly = true;
-            colum5.Name = "door";
-            colum5.Frozen = true;
+            var colum5 = new DataGridViewColumn
+            {
+                HeaderText = "дверей",
+                Width = 80,
+                ReadOnly = true,
+                Name = "door",
+                Frozen = true
+            };
             colum5.HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
             colum5.CellTemplate = new DataGridViewTextBoxCell();
 
@@ -92,7 +113,6 @@ namespace car_book
             data_base.Columns.Add(colum3);
             data_base.Columns.Add(colum4);
             data_base.Columns.Add(colum5);
-
             data_base.AllowUserToAddRows = false;
             data_base.AllowUserToResizeColumns = false;
             data_base.AllowUserToResizeRows = false;
@@ -128,7 +148,7 @@ namespace car_book
 
                 data_base.FirstDisplayedScrollingRowIndex = data_base.Rows[n].Index;
                 //data_base.Columns[0].Visible = true;
-                c_data.Text = "всего " + data_base.Rows.Count.ToString();
+                View_Count();
             }
 
         }
@@ -312,7 +332,6 @@ namespace car_book
             return Byte;
         }
 
-
         private void SendReq(EndPoint endP)
         {
             byte[] data = new byte[3];
@@ -385,60 +404,65 @@ namespace car_book
 
         private void save_Click(object sender, EventArgs e)
         {
-            try
+            List<string> list_data_table = new List<string>();
+            
+            foreach (DataGridViewRow r in data_base.Rows)
             {
-                DataSet ds = new DataSet(); 
-                DataTable dt = new DataTable(); 
-                dt.TableName = "auto-book"; 
-                dt.Columns.Add("car_name"); 
-                dt.Columns.Add("car_year");
-                dt.Columns.Add("car_engine");
-                dt.Columns.Add("car_door");
-                ds.Tables.Add(dt); 
+                string srow = "";
+                for(int i = 1; i < r.Cells.Count; i++)
+                    srow += "#"+r.Cells[i].Value;
+                list_data_table.Add(srow);
+            }
 
-                foreach (DataGridViewRow r in data_base.Rows) 
-                {
-                    DataRow row = ds.Tables["auto-book"].NewRow(); 
-                    row["car_name"] = r.Cells[1].Value;  
-                    row["car_year"] = r.Cells[2].Value; 
-                    row["car_engine"] = r.Cells[3].Value;
-                    row["car_door"] = r.Cells[4].Value;
-                    ds.Tables["auto-book"].Rows.Add(row); 
-                }
-                ds.WriteXml(fullPath + xmlName);
+            if (LIB_XML.Save_XML(list_data_table, fullPath, xmlName))
                 MessageBox.Show("XML файл успешно сохранен.", "Выполнено.");
-            }
-            catch
-            {
+            else
                 MessageBox.Show("Невозможно сохранить XML файл.", "Ошибка.");
-            }
+
         }
 
         private void load_Click(object sender, EventArgs e)
         {
-            data_base.Rows.Clear(); 
-
-                if (File.Exists(fullPath + xmlName))
+            data_base.Rows.Clear();
+            int c_item;
+            if ((c_item = LIB_XML.Load_XML(fullPath, xmlName)) > 0)
+            {
+                for (int i = 0; i < c_item; i++)
                 {
-                    DataSet ds = new DataSet(); 
-                    ds.ReadXml(fullPath + xmlName); 
-
-                    foreach (DataRow item in ds.Tables["auto-book"].Rows)
-                    {
-                        int n = data_base.Rows.Add();
-                        data_base.Rows[n].Cells[0].Value = (n+1).ToString(); 
-                        data_base.Rows[n].Cells[1].Value = item["car_name"]; 
-                        data_base.Rows[n].Cells[2].Value = item["car_year"];
-                        data_base.Rows[n].Cells[3].Value = item["car_engine"];
-                        data_base.Rows[n].Cells[4].Value = item["car_door"];
-                    }
+                    int n = data_base.Rows.Add();
+                    int p = 0;
+                    data_base.Rows[n].Cells[p++].Value = (n + 1).ToString();
+                    List<string> r = LIB_XML.GetRows(i);
+                    foreach (string s in r)
+                        data_base.Rows[n].Cells[p++].Value = s;
                 }
-                else
-                {
-                    MessageBox.Show("XML файл не найден.", "Ошибка.");
-                }
+            }
+            else 
+            {
+                MessageBox.Show("XML файл не найден.", "Ошибка.");
+            }
 
-            c_data.Text = "всего " + data_base.Rows.Count.ToString();
+                //if (File.Exists(fullPath + xmlName))
+                //{
+                //    DataSet ds = new DataSet(); 
+                //    ds.ReadXml(fullPath + xmlName);
+                
+                //    foreach (DataRow item in ds.Tables[LIB_XML.GetXMLHead()].Rows)
+                //    {
+                //        int n = data_base.Rows.Add();
+                //        data_base.Rows[n].Cells[0].Value = (n+1).ToString(); 
+                //        data_base.Rows[n].Cells[1].Value = item["car_name"]; 
+                //        data_base.Rows[n].Cells[2].Value = item["car_year"];
+                //        data_base.Rows[n].Cells[3].Value = item["car_engine"];
+                //        data_base.Rows[n].Cells[4].Value = item["car_door"];
+                //    }
+                //}
+                //else
+                //{
+                //    MessageBox.Show("XML файл не найден.", "Ошибка.");
+                //}
+
+            View_Count();
         }
 
         private void delete_Click(object sender, EventArgs e)
@@ -455,14 +479,20 @@ namespace car_book
             {
                 MessageBox.Show("Выберите строку для удаления.", "Ошибка.");
             }
-        }
 
+            View_Count();
+        }
+        private void View_Count()
+        { 
+            c_data.Text = "всего " + data_base.Rows.Count.ToString();
+        }
         private void clear_Click(object sender, EventArgs e)
         {
             data_base.Rows.Clear();
             data_base.Refresh();
+            View_Count();
         }
-
+        
         private void fix_CheckedChanged(object sender, EventArgs e)
         {
             if (fix.Checked)
@@ -479,6 +509,8 @@ namespace car_book
 
         private void svr_run_Click(object sender, EventArgs e)
         {
+            CreateSocetRec();
+
             if (flag_rec == true)
             {
                 svr_run.BackColor = Color.WhiteSmoke;

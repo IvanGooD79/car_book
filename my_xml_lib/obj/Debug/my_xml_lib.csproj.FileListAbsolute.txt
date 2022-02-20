@@ -1,0 +1,6 @@
+C:\MY_PROGECT\car_book\my_xml_lib\bin\Debug\my_xml_lib.dll
+C:\MY_PROGECT\car_book\my_xml_lib\bin\Debug\my_xml_lib.pdb
+C:\MY_PROGECT\car_book\my_xml_lib\obj\Debug\my_xml_lib.csproj.AssemblyReference.cache
+C:\MY_PROGECT\car_book\my_xml_lib\obj\Debug\my_xml_lib.csproj.CoreCompileInputs.cache
+C:\MY_PROGECT\car_book\my_xml_lib\obj\Debug\my_xml_lib.dll
+C:\MY_PROGECT\car_book\my_xml_lib\obj\Debug\my_xml_lib.pdb
