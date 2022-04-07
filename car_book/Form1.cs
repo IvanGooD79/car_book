@@ -147,7 +147,7 @@ namespace car_book
                     data_base.Rows[n].Cells[i].Value = mTB[i - 1].Text;
 
                 data_base.FirstDisplayedScrollingRowIndex = data_base.Rows[n].Index;
-                //data_base.Columns[0].Visible = true;
+                data_base.Columns[0].Visible = true;
                 View_Count();
             }
 
